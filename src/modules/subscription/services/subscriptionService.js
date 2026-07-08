@@ -55,7 +55,6 @@ const createSubscription = async (
 };
 
 
-
 const getAllSubscriptions = async () => {
 
     return await Subscription.findAll({
@@ -72,6 +71,19 @@ const getAllSubscriptions = async () => {
     });
 
 };
+
+
+
+
+const getSubscriptionActive = async(id)=>{
+    return await Subscription.findOne({
+        where: {
+            userId: ownerId,
+            status: SUBSCRIPTION_STATUS.ACTIVE
+        },
+        include: [{ model: Plan, as: 'plan' }]
+    });
+}
 
 
 
@@ -92,6 +104,26 @@ const getSubscriptionById = async (id)=>{
 
 };
 
+
+
+const getPlanBySubscriptionId = async (subscriptionId) => {
+
+    const subscription = await Subscription.findByPk(subscriptionId, {
+        include: [
+            {
+                model: Plan,
+                as: 'plan',
+                attributes: ['id', 'name', 'maxOrganizations', 'price']
+            }
+        ]
+    });
+
+    if (!subscription) {
+        throw new Error('Subscription not found');
+    }
+
+    return subscription.plan;
+};
 
 
 const updateSubscription = async(id, subscriptionData)=>{
@@ -144,5 +176,6 @@ module.exports = {
     getAllSubscriptions,
     getSubscriptionById,
     updateSubscription,
-    deleteSubscription
+    deleteSubscription,
+    getPlanBySubscriptionId
 };

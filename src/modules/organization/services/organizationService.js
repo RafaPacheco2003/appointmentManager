@@ -4,8 +4,6 @@ const User = require('../../user/models/userModel');
 const createOrganization = async (orgData) => {
 
 
-    console.log(orgData);
-    
     const existingSlug = await getOrganizationBySlug(orgData.slug);
 
     if (existingSlug) {
@@ -18,6 +16,8 @@ const createOrganization = async (orgData) => {
     });
 };
 
+
+
 const getAllOrganizations = async () => {
     return await Organization.findAll({
         include: [{ model: User, as: 'owner' }]
@@ -28,6 +28,16 @@ const getOrganizationById = async (id) => {
     return await Organization.findByPk(id, {
         include: [{ model: User, as: 'owner' }]
     });
+};
+
+
+const getOrganizationByOwnerId = async (ownerId) => {
+    //Number of organizations per user id
+    const numberOfOrganizations = await Organization.count({
+        where: { ownerId }
+    });
+
+    return numberOfOrganizations;
 };
 
 const getOrganizationBySlug = async (slug) => {

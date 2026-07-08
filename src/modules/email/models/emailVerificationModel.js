@@ -11,6 +11,14 @@ const EmailVerification = sequelize.define('EmailVerification', {
         type: DataTypes.UUID,
         allowNull: false
     },
+    type: {
+        type: DataTypes.ENUM(
+            'EMAIL_VERIFICATION',
+            'PASSWORD_RESET'
+        ),
+        allowNull: false
+    },
+
     code: {
         type: DataTypes.STRING,
         allowNull: false

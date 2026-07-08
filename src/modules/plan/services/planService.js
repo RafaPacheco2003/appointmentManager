@@ -13,20 +13,15 @@ const getPlanById = async (id) => {
     return await Plan.findByPk(id);
 };
 
-const updatePlan = async (id, planData) => {
-    const [updatedRows] = await Plan.update(planData, { where: { id } });
-    if (!updatedRows) {
+const getMaxOrganizationsByPlanId = async (planId) => {
+    const plan = await Plan.findByPk(planId, {
+        attributes: ['maxOrganizations']
+    });
+
+    if (!plan) {
         throw new Error('Plan not found');
     }
-    return await getPlanById(id);
-};
 
-const deletePlan = async (id) => {
-    const deletedRows = await Plan.destroy({ where: { id } });
-    if (!deletedRows) {
-        throw new Error('Plan not found');
-    }
-    return deletedRows;
+    return plan.maxOrganizations;
 };
-
-module.exports = { createPlan, getAllPlans, getPlanById, updatePlan, deletePlan };
+module.exports = { createPlan, getAllPlans, getPlanById, getMaxOrganizationsByPlanId };
