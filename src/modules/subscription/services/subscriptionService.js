@@ -5,53 +5,26 @@ const User = require('../../user/models/userModel');
 
 
 
-const createSubscription = async (
-    subscriptionData,
-    transaction
-) => {
+const createSubscription = async (subscriptionData) => {
 
-    const user = await User.findByPk(
-        subscriptionData.userId,
-        {
-            transaction
-        }
-    );
-
+    const user = await User.findByPk(subscriptionData.userId);
 
     if (!user) {
         throw new Error('User not found');
     }
 
-
-    const plan = await Plan.findByPk(
-        subscriptionData.planId,
-        {
-            transaction
-        }
-    );
-
+    const plan = await Plan.findByPk(subscriptionData.planId);
 
     if (!plan) {
         throw new Error('Plan not found');
     }
 
-
-    const subscription = await Subscription.create(
-        {
-            userId: user.id,
-            planId: plan.id,
-            stripeSubscriptionId:
-                subscriptionData.stripeSubscriptionId,
-            status: 'active'
-        },
-        {
-            transaction
-        }
-    );
-
-
-    return subscription;
-
+    return await Subscription.create({
+        userId: user.id,
+        planId: plan.id,
+        stripeSubscriptionId: subscriptionData.stripeSubscriptionId,
+        status: 'active'
+    });
 };
 
 

@@ -21,7 +21,6 @@ const register = async (registration, data) => {
             console.log('pasa a afterCreate');
             return registration.afterCreate(
                 user,
-                data,
                 transaction
             );
 

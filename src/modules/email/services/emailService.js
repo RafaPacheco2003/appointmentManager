@@ -38,6 +38,7 @@ const getValidVerificationCode = async (userId, code, type) => {
 };
 
 
+
 const markVerificationCodeUsed = async (id) => {
     
     return await EmailVerification.update(

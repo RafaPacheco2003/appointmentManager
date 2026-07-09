@@ -3,6 +3,9 @@ const User = require('../models/userModel');
 const Subscription = require('../../subscription/models/subscriptionModel');
 const Plan = require('../../plan/models/planModel');
 const SUBSCRIPTION_STATUS = require('../../subscription/constants/subscriptionStatus');
+const {getValidVerificationCode, markVerificationCodeUsed} = require('../../email/services/emailService');
+const { type } = require('node:os');
+
 const createUser = async (userData) => {
     return await User.create(userData);
 };
@@ -60,6 +63,51 @@ const updateUser = async (id, userData) => {
     return null;
 };
 
+const markEmailAsVerified = async(code, userId, type) => {
+
+
+    console.log('Entra e servico');
+    const emailCode = await getValidVerificationCode(userId,code, type);
+    
+    console.log('Valida si es ivalido o expirado');
+
+    console.log(emailCode);
+    if(!emailCode){
+        throw new Error('Código inválido o expirado');
+    }
+    console.log('Cambiamos su valor del code')
+    console.log(emailCode.used);
+
+
+   
+    await markVerificationCodeUsed(emailCode.id);
+    console.log('Cambio su valor');
+    console.log(emailCode.used);
+
+
+
+    console.log('Entra al update del usuario ');
+    const user = await User.update(
+        
+        {
+        
+            emailVerified: true
+        },
+
+        {
+            where:{
+                id: userId
+            }
+        }
+    )
+    console.log('verificamos si cambio:  ');
+    console.log(user.used);
+    
+    return user;
+    
+
+}
+
 const deleteUser = async (id) => {
     return await User.destroy({
         where: { id }
@@ -74,5 +122,6 @@ module.exports = {
     deleteUser,
     getUserByEmail,
     getUserByPhone,
-    getUserDetails
+    getUserDetails,
+    markEmailAsVerified
 };

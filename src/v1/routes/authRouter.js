@@ -5,7 +5,7 @@ const validateRequest = require('../../modules/common/middlewares/validateReques
 const { registerAdminSchema } = require('../../modules/auth/schemas/registerSchema');
 
 const authController = require('../../modules/auth/controllers/authController');
-
+const userController = require('../../modules/user/controllers/userController');
 
 router.post(
     '/register',
@@ -13,5 +13,9 @@ router.post(
     authController.registerUser
 );
 
+router.post(
+    '/verify-email',
+    userController.verifyEmail
+);
 
 module.exports = router;

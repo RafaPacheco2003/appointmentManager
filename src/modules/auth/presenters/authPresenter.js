@@ -8,10 +8,7 @@ const presentRegister = (register) => {
 
 
     return {
-        user: presentUser(register.user),
-        subscription: register.subscription 
-            ? presentSubscription(register.subscription)
-            : null
+        user: presentUser(register.user)
     };
 
 };

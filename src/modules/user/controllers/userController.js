@@ -81,6 +81,23 @@ const deleteUser = async (req, res) => {
     }
 };
 
+
+const verifyEmail = async (req, res) => {
+    try {
+        const { userId, code } = req.body;
+
+        const user = await userService.markEmailAsVerified(
+            code,
+            userId,
+            'EMAIL_VERIFICATION'
+        );
+
+        res.status(200).json(presentUser(user));
+    } catch (error) {
+        res.status(400).json(presentError(error.message));
+    }
+};
+
 module.exports = {
     createUser,
     getAllUsers,
@@ -89,5 +106,6 @@ module.exports = {
     deleteUser,
     getUserByEmail,
     getUserByPhone,
-    getUserDetails
+    getUserDetails,
+    verifyEmail
 };
