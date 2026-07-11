@@ -1,7 +1,7 @@
 /**
  * Fachada del módulo Storage (Application Service).
  * Orquesta repositorio S3, URLs y configuración del bucket.
- * Los controladores solo dependen de este archivo (Interface Segregation).
+ * Los controleadores solo dependen de este archivo (Interface Segregation).
  */
 const s3Repository = require('./s3StorageRepository');
 const { buildPublicUrl, normalizePublicUrl } = require('./storageUrlService');

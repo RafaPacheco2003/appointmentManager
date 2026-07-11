@@ -1,6 +1,6 @@
 const { createSubscription } = require('../../../subscription/services/subscriptionService');
 const {createVerificationCode} = require('../../../email/services/emailService');
-const role = 'ADMIN';
+const rolee = 'ADMIN';
 
 
 const afterCreate = async(
@@ -24,6 +24,6 @@ const afterCreate = async(
 
 
 module.exports = {
-    role,
+    rolee,
     afterCreate
 };

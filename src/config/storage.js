@@ -50,17 +50,17 @@ const s3 = new S3Client({
 
 /**
  * Cliente Supabase para operaciones de administración (bucket público).
- * Requiere SUPABASE_SERVICE_ROLE_KEY. Retorna null si no está configurado.
+ * Requiere SUPABASE_SERVICE_roleE_KEY. Retorna null si no está configurado.
  */
 const getSupabaseClient = () => {
     const url = getSupabaseUrl();
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const serviceroleeKey = process.env.SUPABASE_SERVICE_roleE_KEY;
 
-    if (!url || !serviceRoleKey) {
+    if (!url || !serviceroleeKey) {
         return null;
     }
 
-    return createClient(url, serviceRoleKey, {
+    return createClient(url, serviceroleeKey, {
         auth: { persistSession: false, autoRefreshToken: false },
         realtime: { transport: WebSocket }
     });

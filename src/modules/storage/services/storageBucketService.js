@@ -13,7 +13,7 @@ ON CONFLICT (id) DO UPDATE SET public = true;
 
 
 const logSqlFallback = (bucketName) => {
-    console.warn('[Storage] Falta SUPABASE_SERVICE_ROLE_KEY en tu .env.');
+    console.warn('[Storage] Falta SUPABASE_SERVICE_roleE_KEY en tu .env.');
     console.warn(`[Storage] Proyecto: ${getSupabaseUrl() || 'desconocido'}`);
     console.warn('[Storage] Ejecuta esto en Supabase → SQL Editor:');
     console.warn(getBucketSetupSql(bucketName));

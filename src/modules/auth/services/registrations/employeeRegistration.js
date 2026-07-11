@@ -1,4 +1,4 @@
-const role = 'EMPLOYEE';
+const rolee = 'EMPLOYEE';
 
 
 const afterCreate = async (user) => {
@@ -11,6 +11,6 @@ const afterCreate = async (user) => {
 
 
 module.exports = {
-    role,
+    rolee,
     afterCreate
 };

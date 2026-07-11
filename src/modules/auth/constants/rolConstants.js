@@ -1,4 +1,4 @@
-const ROLE_CONFIG = {
+const roleE_CONFIG = {
     ADMIN: {
         requiresSubscription: true
     },
@@ -13,4 +13,4 @@ const ROLE_CONFIG = {
     }
 };
 
-module.exports = ROLE_CONFIG;
+module.exports = roleE_CONFIG;

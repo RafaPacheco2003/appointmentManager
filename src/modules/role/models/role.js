@@ -1,12 +1,12 @@
-const ROLE = {
+const roleE = {
   ADMIN: 'ADMIN',
   EMPLOYEE: 'EMPLOYEE',
   CUSTOMER: 'CUSTOMER'
 };
 
-const ROLE_VALUES = Object.values(ROLE);
+const roleE_VALUES = Object.values(roleE);
 
 module.exports = {
-  ROLE,
-  ROLE_VALUES
+  roleE,
+  roleE_VALUES
 };

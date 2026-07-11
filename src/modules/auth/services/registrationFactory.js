@@ -1,8 +1,8 @@
 const User = require('../../user/models/userModel');
 const { hashPassword } = require('./passwordService');
 
-const createUserWithRole = async (
-    role,
+const createUserWithrolee = async (
+    rolee,
     userData,
     transaction
 ) => {
@@ -16,7 +16,7 @@ const createUserWithRole = async (
         {
             ...rest,
             password: hashedPassword,
-            rol: role
+            role: rolee
         },
         {
             transaction
@@ -25,5 +25,5 @@ const createUserWithRole = async (
 };
 
 module.exports = {
-    createUserWithRole
+    createUserWithrolee
 };

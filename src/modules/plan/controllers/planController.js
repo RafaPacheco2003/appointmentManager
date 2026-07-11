@@ -46,7 +46,7 @@ const updatePlan = async (req, res) => {
 
 const deletePlan = async (req, res) => {
     try {
-        const plan = await planService.deletePlan(req.params.planId);
+        await planService.deletePlan(req.params.planId);
         res.status(200).json(presentSuccess('Plan deleted successfully'));
     } catch (error) {
         res.status(500).json(presentError(error.message));

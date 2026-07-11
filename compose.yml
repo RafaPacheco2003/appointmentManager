@@ -11,7 +11,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      
+
       # Variables de Supabase S3
       - SUPABASE_BUCKET=${SUPABASE_BUCKET}
       - SUPABASE_CDN_URL=${SUPABASE_CDN_URL}
@@ -20,10 +20,43 @@ services:
       - SUPABASE_ACCESS_KEY_ID=${SUPABASE_ACCESS_KEY_ID}
       - SUPABASE_SECRET_ACCESS_KEY=${SUPABASE_SECRET_ACCESS_KEY}
       - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
-      
-      # Otras variables
+      - SUPABASE_SERVICE_roleE_KEY=${SUPABASE_SERVICE_roleE_KEY}
+
       - PORT=3000
-    restart: unless-stopped
     env_file:
       - .env
+    restart: unless-stopped
+
+  sonarqube:
+    image: sonarqube:lts-community
+    container_name: sonarqube
+    depends_on:
+      - sonar-db
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    restart: unless-stopped
+
+  sonar-db:
+    image: postgres:16
+    container_name: sonarqube-postgres
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar_db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+  sonar_db:

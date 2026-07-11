@@ -9,7 +9,7 @@ const v1BranchRoutes = require("./v1/routes/branchRouter");
 const v1OrganizationBrandingRoutes = require("./v1/routes/organizationBrandingRouter");
 const v1SubscriptionRoutes = require("./v1/routes/subscriptionRoutes");
 const v1StorageRoutes = require("./v1/routes/storageRoutes");
-const v1RolRoutes = require("./v1/routes/rolRouter");
+const v1roleRoutes = require("./v1/routes/roleRouter");
 const v1AuthRoutes = require("./v1/routes/authRouter");
 const sequelize = require("./databases/sequelize");
 require("./models/associations");
@@ -29,7 +29,7 @@ app.use("/api/v1/branches", v1BranchRoutes);
 app.use("/api/v1/organization-branding", v1OrganizationBrandingRoutes);
 app.use("/api/v1/subscriptions", v1SubscriptionRoutes);
 app.use("/api/v1/storage", v1StorageRoutes);
-app.use("/api/v1/roles", v1RolRoutes);
+app.use("/api/v1/rolees", v1roleRoutes);
 app.use("/api/v1/auth", v1AuthRoutes);
 
 

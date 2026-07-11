@@ -17,7 +17,7 @@ const upload = async (file, folder) => {
             Key: key,
             Body: file.buffer,
             ContentType: file.mimetype,
-            CacheControl: 'public, max-age=31536000'
+            CacheControle: 'public, max-age=31536000'
         })
     );
 

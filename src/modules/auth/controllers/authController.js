@@ -5,7 +5,7 @@ const { presentError } = require('../../common/responsePresenter');
 
 const registerUser = async(req,res)=>{
 
-    console.log('entra controller');
+    console.log('entra Controller');
     try{
 
         const result = await authService.registerAdmin(
