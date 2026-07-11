@@ -1,9 +1,9 @@
-const { roleE_VALUES } = require('../models/role');
+const Role = require('../models/roleModel');
 
-const getAvailablerolees = async () => {
-  return roleE_VALUES;
+const createRole = async (roleData) => {
+    return await Role.create(roleData);
 };
 
 module.exports = {
-  getAvailablerolees
+    createRole
 };

@@ -1,6 +1,8 @@
-const {DataTypes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require('../../../databases/sequelize');
-const { roleE_VALUES } = require('../../role/models/role');
+
+// Si existe un archivo con los valores ENUM
+// const { roleE_VALUES } = require('../../role/models/role');
 
 const User = sequelize.define('User', {
     id: {
@@ -8,11 +10,16 @@ const User = sequelize.define('User', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
-    rolee:{
-        type: DataTypes.ENUM(...roleE_VALUES),
-        allowNull: false,
-        defaultValue: 'EMPLOYEE'
+    roleId: {
+        type: DataTypes.INTEGER,
+        allowNull: true, 
+        references: {
+            model: 'roles',
+            key: 'id'
+        }
     },
+
+    
     name: {
         type: DataTypes.STRING,
         allowNull: false
