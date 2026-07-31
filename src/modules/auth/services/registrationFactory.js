@@ -1,29 +1,28 @@
 const User = require('../../user/models/userModel');
+const Role = require('../../role/models/roleModel');
 const { hashPassword } = require('./passwordService');
+const {getRoleByName} = require('../../role/service/roleGetService')
 
-const createUserWithrolee = async (
-    rolee,
-    userData,
-    transaction
-) => {
-
+const createUserWithRole = async (roleName, userData, transaction) => {
     const { password, ...rest } = userData;
 
-    const hashedPassword = await hashPassword(password);
 
+    const role = await getRoleByName(roleName, transaction);
+
+
+
+   
+    const hashedPassword = await hashPassword(password);
 
     return User.create(
         {
             ...rest,
             password: hashedPassword,
-            role: rolee
+            roleId: role.id  
         },
-        {
-            transaction
-        }
+        { transaction }
     );
 };
-
 module.exports = {
-    createUserWithrolee
+    createUserWithRole  
 };

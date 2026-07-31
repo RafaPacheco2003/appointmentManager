@@ -1,43 +1,43 @@
+
 const sequelize = require('../../../databases/sequelize');
-const { createUserWithrolee } = require('./registrationFactory');
-
-const adminRegistration = require('../services/registrations/adminRegistration');
-
+const { createUserWithRole } = require('./registrationFactory');
 
 const register = async (registration, data) => {
-
-    return sequelize.transaction(
-        async(transaction)=>{
-
-            console.log('Entra en servicio y va a crear usuario con rolee')
-            const user = await createUserWithrolee(
-                registration.rolee,
-                data,
-                transaction
-            );
-            console.log('Sale de user con rolee');
-            console.log(user);
-
-            console.log('pasa a afterCreate');
-            return registration.afterCreate(
-                user,
-                transaction
-            );
-
-        }
-    );
-
+    return sequelize.transaction(async (transaction) => {
+        console.log(`Creando usuario con rol: ${registration.roleName}`);
+        
+        // Crear usuario con el rol específico
+        const user = await createUserWithRole(
+            registration.roleName,
+            data,
+            transaction
+        );
+        
+        console.log('Usuario creado exitosamente:', user.id);
+        
+        // Ejecutar afterCreate específico del registro
+        console.log('Ejecutando afterCreate...');
+        const result = await registration.afterCreate(user, transaction);
+        
+        return result;
+    });
 };
 
-
-const registerAdmin = async(data)=>{
-    return register(
-        adminRegistration,
-        data
-    );
+const registerAdmin = async (data) => {
+    const adminRegistration = require('./registrations/adminRegistration');
+    return register(adminRegistration, data);
 };
+
+const registerCustomer = async (data) => {
+    const customerRegistration = require('./registrations/customerRegistration');
+    return register(customerRegistration, data);
+};
+
 
 
 module.exports = {
-    registerAdmin
+    register,
+    registerAdmin,
+    registerCustomer
+    
 };

@@ -12,6 +12,7 @@ const v1StorageRoutes = require("./v1/routes/storageRoutes");
 const v1roleRoutes = require("./v1/routes/roleRouter");
 const v1AuthRoutes = require("./v1/routes/authRouter");
 const sequelize = require("./databases/sequelize");
+const seedRoles = require("./modules/role/seeders/roleSeeder");
 require("./models/associations");
 
 
@@ -39,6 +40,8 @@ app.use("/api/v1/auth", v1AuthRoutes);
 sequelize.sync({ force: false, alter: true }) 
   .then(async () => {
     console.log('Base de datos sincronizada');
+
+    await seedRoles();
 
     await ensureStorageBucket();
 

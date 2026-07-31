@@ -1,29 +1,19 @@
-const { createSubscription } = require('../../../subscription/services/subscriptionService');
-const {createVerificationCode} = require('../../../email/services/emailService');
-const rolee = 'ADMIN';
 
+const { createVerificationCode } = require('../../../email/services/emailService');
 
-const afterCreate = async(
-    user,
-    transaction
-)=>{
+const roleName = 'ADMIN';
 
-
-
-
-
-    console.log('Entra a create code');
-    await createVerificationCode(user.id,'EMAIL_VERIFICATION', transaction);
+const afterCreate = async (user, transaction) => {
+    console.log('Entra a create code para ADMIN');
+    await createVerificationCode(user.id, 'EMAIL_VERIFICATION', transaction);
     
-
     return {
-        user
+        user,
+        message: 'Admin registered successfully. Verification email sent.'
     };
-
 };
 
-
 module.exports = {
-    rolee,
+    roleName,
     afterCreate
 };

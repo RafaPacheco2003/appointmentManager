@@ -5,14 +5,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      # Variables de tu base de datos en la nube (Render)
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
 
-      # Variables de Supabase S3
       - SUPABASE_BUCKET=${SUPABASE_BUCKET}
       - SUPABASE_CDN_URL=${SUPABASE_CDN_URL}
       - SUPABASE_S3_REGION=${SUPABASE_S3_REGION}

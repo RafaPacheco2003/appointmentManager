@@ -16,8 +16,20 @@ const getRoleById = async (id) => {
         throw new Error(`Error al obtener rol por ID: ${error.message}`);
     }
 };
+const getRoleByName = async (name, transaction) => {
+    const role = await Role.findOne({
+        where: { name: name },
+        transaction
+    });
 
+    if (!role) {
+        throw new Error(`Role "${name}" not found`);
+    }
+
+    return role;
+};
 module.exports = {
     getRoles,
-    getRoleById
+    getRoleById,
+    getRoleByName
 };

@@ -1,16 +1,16 @@
-const rolee = 'CUSTOMER';
 
+const roleName = 'CUSTOMER';
 
-const afterCreate = async (user) => {
-
+const afterCreate = async (user, transaction) => {
+    console.log('Customer registered successfully');
+    
     return {
-        user
+        user,
+        message: 'Customer registered successfully'
     };
-
 };
 
-
 module.exports = {
-    rolee,
+    roleName,
     afterCreate
 };
