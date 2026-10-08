@@ -1,16 +1,16 @@
-const rolee = 'EMPLOYEE';
+const RegistrationStrategy = require('./RegistrationStrategy');
 
+class EmployeeRegistration extends RegistrationStrategy {
+    getRoleName() {
+        return 'EMPLOYEE';
+    }
 
-const afterCreate = async (user) => {
+    async afterCreate(user, transaction) {
+        return {
+            user,
+            message: 'Employee registered successfully'
+        };
+    }
+}
 
-    return {
-        user
-    };
-
-};
-
-
-module.exports = {
-    rolee,
-    afterCreate
-};
+module.exports = new EmployeeRegistration();

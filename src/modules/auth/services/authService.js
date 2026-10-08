@@ -1,43 +1,38 @@
-
 const sequelize = require('../../../databases/sequelize');
-const { createUserWithRole } = require('./registrationFactory');
+const { createUserWithRole, getRegistrationStrategy } = require('./registrationFactory');
+const { getUserByEmail } = require('../../user/services/userService');
+const { createAccessToken, createRefreshToken } = require('./tokenservice');
+const { verifyPassword } = require('./passwordService');
+const { InvalidCredentialsException, EmailNotVerifiedException } = require('../exceptions/AuthException');
 
-const register = async (registration, data) => {
+const register = async (strategyType, data) => {
     return sequelize.transaction(async (transaction) => {
-        console.log(`Creando usuario con rol: ${registration.roleName}`);
-        
-        // Crear usuario con el rol específico
-        const user = await createUserWithRole(
-            registration.roleName,
-            data,
-            transaction
-        );
-        
-        console.log('Usuario creado exitosamente:', user.id);
-        
-        // Ejecutar afterCreate específico del registro
-        console.log('Ejecutando afterCreate...');
-        const result = await registration.afterCreate(user, transaction);
-        
+        const strategy = getRegistrationStrategy(strategyType);
+        const processedData = await strategy.beforeCreate(data, transaction);
+        const user = await createUserWithRole(strategy.getRoleName(), processedData, transaction);
+        const result = await strategy.afterCreate(user, transaction);
         return result;
     });
 };
 
-const registerAdmin = async (data) => {
-    const adminRegistration = require('./registrations/adminRegistration');
-    return register(adminRegistration, data);
+const login = async (data) => {
+    const user = await getUserByEmail(data.email);
+
+    if (!user) throw new InvalidCredentialsException();
+
+    await verifyPassword(data.password, user.password);
+
+    if (!user.emailVerified) throw new EmailNotVerifiedException();
+
+    return {
+        accessToken: createAccessToken(user),
+        refreshToken: createRefreshToken(user),
+        tokenType: 'Bearer',
+        user,
+    };
 };
-
-const registerCustomer = async (data) => {
-    const customerRegistration = require('./registrations/customerRegistration');
-    return register(customerRegistration, data);
-};
-
-
 
 module.exports = {
     register,
-    registerAdmin,
-    registerCustomer
-    
+    login,
 };

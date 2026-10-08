@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const validateRequest = require('../../modules/common/middlewares/validateRequest');
-const { registerAdminSchema } = require('../../modules/auth/schemas/registerSchema');
+const { registerAdminSchema, loginSchema } = require('../../modules/auth/schemas/registerSchema');
 
 const authController = require('../../modules/auth/controllers/authController');
 const userController = require('../../modules/user/controllers/userController');
@@ -12,6 +12,12 @@ router.post(
     validateRequest(registerAdminSchema),
     authController.registerUser
 );
+
+router.post(
+    '/login',
+    validateRequest(loginSchema),
+    authController.login
+)
 
 router.post(
     '/verify-email',
